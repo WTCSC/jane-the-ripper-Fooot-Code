@@ -3,11 +3,12 @@ import os
 
 def crackPasswords(hashFilePath: str, wordlistPath: str, algorithmToUse: tuple):
     """
-    Takes 2 file paths, one for hashes, one for word lists, and an algorithm's
-    name and function in a tuple. It then hashes the words in the word file using
-    the specified algorithm, and then compares said hashes to the hash file given
-    to determine any equivalent hashes. It then prints out the hashes and their 
-    respective passwords.
+    Cracks passwords using the given hash file, wordlist file, and algorithm
+    
+    Args:
+        hashFilePath: Path to the file containing the hashes 
+        wordlistFilePath: Path to the file containing the word list
+        algorithmToUse: Algorithm that the user chose to use for cracking
     """
 
     targetHashes = set() # hashes from hashFilePath
@@ -49,7 +50,8 @@ def crackPasswords(hashFilePath: str, wordlistPath: str, algorithmToUse: tuple):
     
 
 def main():
-    # Hashing algorithms and their functions
+    # Hashing algorithms and their functions. Does this for ease of use. 
+    # Functions can be accessed by the keys of the algorithm
     availableHashingAlgorithms = {
         'md5': hashlib.md5,
         'sha1': hashlib.sha1,
