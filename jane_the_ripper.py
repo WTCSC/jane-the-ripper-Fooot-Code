@@ -12,7 +12,7 @@ def crackPasswords(hashFilePath: str, wordlistPath: str, algorithmToUse: tuple):
     """
 
     targetHashes = set() # hashes from hashFilePath
-    uncrackableHashes = set() # hashes that weren't able to be cracked.
+    hashDict = {}
 
     # shake_* algorithms require an explicit digest length
     explicitDigestLength = ""
@@ -38,14 +38,11 @@ def crackPasswords(hashFilePath: str, wordlistPath: str, algorithmToUse: tuple):
 
             # If hash is cracked, then print the cracked hash
             if hashedWord in targetHashes:
-                print(f"[+] Cracked {hashedWord} --> {word}")
-            else: # if not, add the hash to the uncrackable list
-                uncrackableHashes.add(targetHashes)
-    
-    # Prints unfound hashes
-    print("Cracking is finished, here are hashes that weren't found:")
-    for uncrackedHash in uncrackableHashes:
-        print(f"[-] {uncrackedHash}")
+                hashDict[hashedWord] = word
+            else:
+                hashDict[hashedWord] = ""
+
+    return hashDict
 
     
 
@@ -90,7 +87,13 @@ def main():
 
         algorithmToUse = (hashAlgorithmType, availableHashingAlgorithms[hashAlgorithmType]) # string of algorithm type and function of algorithm
 
-        crackPasswords(hashFilePath, wordlistFilePath, algorithmToUse)
+        hashesDictionary = crackPasswords(hashFilePath, wordlistFilePath, algorithmToUse)
+        for hashKey, wordValue in hashesDictionary.items():
+            if wordValue:
+                print(f"[+] Cracked {hashKey} --> {wordValue}")
+
+            else:
+                print(f"[-] Counldnt ")
 
         print("Would you like to try again?")
         tryAgain = True if input("(y or n)> ").lower() == "y" else False
