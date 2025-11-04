@@ -23,6 +23,7 @@ def crackPasswords(hashFilePath: str, wordlistPath: str, algorithmToUse: tuple):
     with open(hashFilePath, "r") as hashesFile:
         for hash in hashesFile:
             targetHashes.add(hash.strip())
+            hashDict[hash.strip()] = ""
 
     # Cracks passwords by comparing word hashes with target hashes
     with open(wordlistPath, "r") as wordListFile:
@@ -39,8 +40,6 @@ def crackPasswords(hashFilePath: str, wordlistPath: str, algorithmToUse: tuple):
             # If hash is cracked, then print the cracked hash
             if hashedWord in targetHashes:
                 hashDict[hashedWord] = word
-            else:
-                hashDict[hashedWord] = ""
 
     return hashDict
 
@@ -93,7 +92,7 @@ def main():
                 print(f"[+] Cracked {hashKey} --> {wordValue}")
 
             else:
-                print(f"[-] Counldnt ")
+                print(f"[-] Couldn't crack hash {hashKey}")
 
         print("Would you like to try again?")
         tryAgain = True if input("(y or n)> ").lower() == "y" else False
